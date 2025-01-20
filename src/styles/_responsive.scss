@@ -1,0 +1,13 @@
+$ideal-viewport-width: 1440;
+$current-viewport-width: 100vw;
+$min-desktop-viewport-width: 992;
+$max-desktop-viewport-width: 3840;
+
+@function resize($ideal-size) {
+    @return calc(#{$ideal-size} * #{$current-viewport-width} / #{$ideal-viewport-width});
+}
+
+$xs: 576px;
+$sm: 768px;
+$md: 992px;
+$lg: 1024px;
