@@ -140,4 +140,4 @@ async function multilang_setup(){
 
 }
 
-multilang_setup()
+module.exports = { multilang_setup }
