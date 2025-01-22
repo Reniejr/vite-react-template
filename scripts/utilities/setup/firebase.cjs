@@ -7,9 +7,6 @@ const path = require("path");
 // Templates
 const { firebase_template_initializeApps } = require("../../templates/firebase.cjs")
 
-// Utilities
-const { readCurrentDirectory, selectInDirectory } = require("../index.cjs")
-
 // Commands
 const FIREBASE_CMDS = {
     "init": "firebase init hosting",
@@ -229,8 +226,4 @@ async function firebase_setup(){
 
 }
 
-
-firebase_setup()
-// firebase_getProjectsConfigs()
-
-// module.exports = { firebase_writeAppInitFile, firebase_setup }
+module.exports = { firebase_writeAppInitFile, firebase_setup }

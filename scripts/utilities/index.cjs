@@ -98,4 +98,27 @@ async function selectInDirectory(filesInDir){
 
 }
 
-module.exports = { logger, readCurrentDirectory, selectInDirectory };
+function insertLinesAt(filePath, codeToAdd, lineNumber){
+    fs.readFile(filePath, 'utf8', (readErr, data) => {
+        if (readErr) {
+            console.error('Error reading the file:', readErr);
+            return;
+        }
+
+        const lines = data.split('\n');
+
+        lines.splice(lineNumber - 1, 0, codeToAdd);
+
+        const updatedContent = lines.join('\n');
+
+        fs.writeFile(filePath, updatedContent, 'utf8', (writeErr) => {
+            if (writeErr) {
+                console.error('Error writing to the file:', writeErr);
+            } else {
+                console.log('Lines inserted successfully!');
+            }
+        });
+    });
+}
+
+module.exports = { logger, readCurrentDirectory, selectInDirectory, insertLinesAt };
