@@ -57,12 +57,13 @@ const TestPage = () => {
         <FlipCard additionalStyles={styles} variant="click">
             <FlipCardFront>
                 <h1>{content}</h1>
+                <button onClick={() => {console.log("internal click")}}>Flip</button>
             </FlipCardFront>
             <FlipCardBack>
                 <h2>Back</h2>
             </FlipCardBack>
             <FlipCardTrigger>
-                <button>Flip</button>
+                <button onClick={() => {console.log("flip")}}>Flip</button>
             </FlipCardTrigger>
             {/* <FlipCardTriggerFront>
                 <button>Flip to back</button>

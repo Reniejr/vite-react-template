@@ -19,6 +19,14 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             overflow: hidden;
+
+            .flip-trigger{
+                cursor: pointer;
+
+                button{
+                    cursor: pointer;
+                }
+            }
           }
 
           .flip-card-front {

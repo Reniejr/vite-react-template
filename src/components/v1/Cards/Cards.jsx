@@ -18,7 +18,7 @@ export const FlipCard = ({ children, ...props }) => {
         "click",
         "click-on",
         "click-off",
-        "flip_trigger"
+        "flip-trigger"
     ]
     const classes_names = generateClassesNames(elements, styles, props.additionalStyles);
 
