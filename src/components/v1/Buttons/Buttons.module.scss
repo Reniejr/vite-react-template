@@ -1,0 +1,25 @@
+@use "../../../styles/main.scss";
+ 
+.btn{
+    width: 100%;
+    min-width: 125px;
+    cursor: pointer;
+    text-align: center;
+    padding: 8px 10px;
+    @include main.flexBox(row, center, center);
+    font-size: 12px;
+    letter-spacing: 0.1px;
+    font-weight: bold;
+    outline: none;
+}
+
+.btn-icon{
+
+    &.vr{
+        @include main.flexBox(column, center, center);
+    }
+    &.hr{
+        @include main.flexBox(row, center, center);
+    }
+    gap: 5px;
+}

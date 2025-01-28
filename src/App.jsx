@@ -1,4 +1,5 @@
 /* eslint-disable-next-line no-unused-vars */
+import TestPage from 'pages/TestPage/TestPage'
 import React from 'react'
 //* Router
 /* eslint-disable-next-line no-unused-vars */
@@ -8,6 +9,7 @@ const AppWrapper = () => {
   return(
     <>
       <Routes>
+        <Route path="/" element={<TestPage/>} />
       </Routes>
     </>
   )
