@@ -1,7 +1,16 @@
 /* eslint-disable */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { InputContainer, InputLabel, InputNumber } from 'components/v1/Inputs/Inputs'
+
+import { 
+    FlipCard, 
+    FlipCardFront, 
+    FlipCardBack,
+    FlipCardTrigger,
+    FlipCardTriggerBack,
+    FlipCardTriggerFront
+} from 'components/v1/Cards/Cards'
 
 // Styles
 import styles from './TestPage.module.scss';
@@ -16,6 +25,16 @@ const TestPage = () => {
         console.log(e.value);
         setNumber(Number(e.value))
     }
+
+    const [ content, setContent ] = useState('Hello World');
+
+    useEffect(() => {
+
+        setInterval(() => {
+            setContent(Math.random());
+        }, 2000)
+
+    }, []);
 
     return (
     <div
@@ -35,6 +54,23 @@ const TestPage = () => {
                 onChange={handleNumberInput}
             />
         </InputContainer>
+        <FlipCard additionalStyles={styles} variant="click">
+            <FlipCardFront>
+                <h1>{content}</h1>
+            </FlipCardFront>
+            <FlipCardBack>
+                <h2>Back</h2>
+            </FlipCardBack>
+            <FlipCardTrigger>
+                <button>Flip</button>
+            </FlipCardTrigger>
+            {/* <FlipCardTriggerFront>
+                <button>Flip to back</button>
+            </FlipCardTriggerFront> */}
+            {/* <FlipCardTriggerBack>
+                <button>Flip to front</button>
+            </FlipCardTriggerBack> */}
+        </FlipCard>
     </div>
     );
 };
