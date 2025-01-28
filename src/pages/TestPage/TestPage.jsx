@@ -30,7 +30,7 @@ const TestPage = () => {
                 min={0}
                 max={7}
                 ref={input_number}
-                orientation="vr"
+                orientation="hr"
                 variant="manual-step"
                 onChange={handleNumberInput}
             />
