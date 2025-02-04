@@ -12,6 +12,8 @@ import {
     FlipCardTriggerFront
 } from 'components/v1/Cards/Cards'
 
+import Carousel, { Slides, Slide, NavigationArrows } from 'components/v1/Carousels/Carousels';
+
 // Styles
 import styles from './TestPage.module.scss';
 
@@ -28,13 +30,13 @@ const TestPage = () => {
 
     const [ content, setContent ] = useState('Hello World');
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        setInterval(() => {
-            setContent(Math.random());
-        }, 2000)
+    //     setInterval(() => {
+    //         setContent(Math.random());
+    //     }, 2000)
 
-    }, []);
+    // }, []);
 
     return (
     <div
@@ -72,6 +74,17 @@ const TestPage = () => {
                 <button>Flip to front</button>
             </FlipCardTriggerBack> */}
         </FlipCard>
+        <Carousel
+            variant="single"
+            stackItemLength={1}
+        >
+            <Slides>
+                <Slide>Slide 1</Slide>
+                <Slide>Slide 2</Slide>
+                <Slide>Slide 3</Slide>
+            </Slides>
+            <NavigationArrows/>
+        </Carousel>
     </div>
     );
 };
