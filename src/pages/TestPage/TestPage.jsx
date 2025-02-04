@@ -12,7 +12,7 @@ import {
     FlipCardTriggerFront
 } from 'components/v1/Cards/Cards'
 
-import Carousel, { Slides, Slide, NavigationArrows } from 'components/v1/Carousels/Carousels';
+import Carousel, { Slides, Slide, NavigationArrows, Pagination } from 'components/v1/Carousels/Carousels';
 
 // Styles
 import styles from './TestPage.module.scss';
@@ -77,13 +77,15 @@ const TestPage = () => {
         <Carousel
             variant="single"
             stackItemLength={1}
+            additionalStyles={styles}
         >
-            <Slides>
-                <Slide>Slide 1</Slide>
-                <Slide>Slide 2</Slide>
-                <Slide>Slide 3</Slide>
+            <Slides additionalStyles={styles}>
+                <Slide additionalStyles={styles}>Slide 1</Slide>
+                <Slide additionalStyles={styles}>Slide 2</Slide>
+                <Slide additionalStyles={styles}>Slide 3</Slide>
             </Slides>
             <NavigationArrows/>
+            <Pagination additionalStyles={styles}/>
         </Carousel>
     </div>
     );
