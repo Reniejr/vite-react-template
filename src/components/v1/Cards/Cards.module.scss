@@ -1,0 +1,69 @@
+@use "../../../styles/main.scss";
+
+.flip-card{
+    background-color: transparent;
+    perspective: 1000px;
+
+    .flip-card-inner{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        @include main.transition(all .8s ease);
+        transform-style: preserve-3d;
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            overflow: hidden;
+
+            .flip-trigger{
+                cursor: pointer;
+
+                button{
+                    cursor: pointer;
+                }
+            }
+          }
+
+          .flip-card-front {
+            background-color: #bbb;
+            color: black;
+          }
+          
+          .flip-card-back {
+            background-color: dodgerblue;
+            color: white;
+            transform: rotateY(180deg);
+          }
+
+    }
+
+    &.click{
+
+        &.click-on{
+            .flip-card-inner{
+                @include main.transform(rotateY(180deg));
+            }
+        }
+        &.click-off{
+            .flip-card-inner{
+                @include main.transform(rotateY(0deg));
+            }
+        }
+
+    }
+
+    &.hover{
+
+        &:hover{
+            .flip-card-inner{
+                @include main.transform(rotateY(180deg));
+            }
+        }
+    }
+
+}
