@@ -1,6 +1,10 @@
+/**
+ *
+ * @param languages
+ */
 function generateI18nConfigFile(languages){
 
-    let languages_strings_imports = languages.map(language => `import ${language.key} from './strings/${language.key}.json'`).join("\n")
+    const languages_strings_imports = languages.map(language => `import ${language.key} from './strings/${language.key}.json'`).join("\n")
     
     const export_template = `
 export const resources = {

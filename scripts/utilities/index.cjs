@@ -2,20 +2,27 @@ const fs = require("fs");
 const path = require("path");
 const multiSelect = require("inquirer-select-pro");
 const { select, type } = require("@inquirer/prompts");
+const { execSync } = require("child_process");
+const LOGGER = require("./logger.cjs")
 
+/**
+ *
+ * @param type
+ * @param message
+ */
 function logger(type, message){
 
     switch(type){
-        case 'success':
+        case "success":
             console.log(`\x1b[42m ${message} \x1b[42m`);
             break;
-        case 'info':
+        case "info":
             console.log(`\x1b[44m ${message} \x1b[44m`);
             break;
-        case 'warn':
+        case "warn":
             console.log(`\x1b[43m ${message} \x1b[43m`);
             break;
-        case 'error':
+        case "error":
             console.log(`\x1b[41m ${message} \x1b[41m`);
             break;
         default:
@@ -40,13 +47,15 @@ const DEFAULT_IGNORE_LIST = [
 ]
 
 /**
- * Reads all files and folders in the current directory
- * @returns {Object} - An object containing arrays of files and folders
+ * Reads all files and folders in the current directory.
+ * @param pathToRead
+ * @param ignoreList
+ * @returns {object} - An object containing arrays of files and folders.
  */
 function readCurrentDirectory(pathToRead = undefined, ignoreList = []) {
     const currentPath = pathToRead ? path.resolve(process.cwd(), pathToRead) : process.cwd();
     let result = []
-    let list_to_ignore = DEFAULT_IGNORE_LIST.concat(ignoreList)
+    const list_to_ignore = DEFAULT_IGNORE_LIST.concat(ignoreList)
 
     try {
         const items = fs.readdirSync(currentPath);
@@ -67,12 +76,16 @@ function readCurrentDirectory(pathToRead = undefined, ignoreList = []) {
         return result
 
     } catch (error) {
-        console.error('Error reading the directory:', error);
+        console.error("Error reading the directory:", error);
     }
 
     return result;
 }
 
+/**
+ *
+ * @param filesInDir
+ */
 async function selectInDirectory(filesInDir){
 
     if(
@@ -93,32 +106,103 @@ async function selectInDirectory(filesInDir){
         return files_selected
         
     } catch (error) {
-        console.error('Cannot select files', error)
+        console.error("Cannot select files", error)
     }
 
 }
 
+/**
+ *
+ * @param filePath
+ * @param codeToAdd
+ * @param lineNumber
+ */
 function insertLinesAt(filePath, codeToAdd, lineNumber){
-    fs.readFile(filePath, 'utf8', (readErr, data) => {
+    fs.readFile(filePath, "utf8", (readErr, data) => {
         if (readErr) {
-            console.error('Error reading the file:', readErr);
+            console.error("Error reading the file:", readErr);
             return;
         }
 
-        const lines = data.split('\n');
+        const lines = data.split("\n");
 
         lines.splice(lineNumber - 1, 0, codeToAdd);
 
-        const updatedContent = lines.join('\n');
+        const updatedContent = lines.join("\n");
 
-        fs.writeFile(filePath, updatedContent, 'utf8', (writeErr) => {
+        fs.writeFile(filePath, updatedContent, "utf8", (writeErr) => {
             if (writeErr) {
-                console.error('Error writing to the file:', writeErr);
+                console.error("Error writing to the file:", writeErr);
             } else {
-                console.log('Lines inserted successfully!');
+                console.log("Lines inserted successfully!");
             }
         });
     });
 }
 
-module.exports = { logger, readCurrentDirectory, selectInDirectory, insertLinesAt };
+/**
+ * Writes content to a specified file, creating any necessary directories.
+ * 
+ * @param {string} filePath - The relative path to the file where content will be written.
+ * @param {string} content - The content to write into the file.
+ */
+function writeFile(filePath, content){
+
+    const fileCompletePath = path.resolve(__dirname, filePath);
+
+    const directoryPath = path.dirname(fileCompletePath);
+
+    if(!fs.existsSync(directoryPath)){
+        fs.mkdirSync(directoryPath, { recursive: true })
+    }
+
+    fs.writeFileSync(fileCompletePath, content);
+
+}
+
+function readJson(filePath){
+
+    try {
+        return JSON.parse(fs.readFileSync(path.resolve(__dirname, filePath), "utf-8"));
+        
+    } catch (error) {
+        LOGGER.error(`${filePath} not exist`)
+    }
+
+
+}
+
+function runCommand(command, options = undefined ){
+
+    let defaultOptions = {
+        toConvert: true,
+        showLogs: false
+    }
+
+    if(options){
+        defaultOptions = {
+            ...defaultOptions,
+            ...options
+        }
+    }
+
+    const { toConvert, showLogs } = defaultOptions;
+
+    let execOptions = {}
+
+    if(toConvert) {
+        execOptions.encoding = "utf-8"
+    }
+    if(showLogs){
+        execOptions.stdio = "inherit"
+    }
+
+    if(toConvert) {
+        const result = execSync(command, { ...execOptions, stdio: "pipe"}).trim()
+        return JSON.parse(result);
+    } else return execSync(command, execOptions)    
+
+}
+
+
+module.exports = { logger, readCurrentDirectory, selectInDirectory, insertLinesAt, writeFile, readJson, runCommand };

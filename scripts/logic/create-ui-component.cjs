@@ -79,9 +79,9 @@ function createSCSSFile(filename, filePath){
  * This function interactively gathers input for the component's name and location, then 
  * generates the corresponding JSX and SCSS files in the specified directory.
  * 
- * @async
  * @function createUIComponent
  * @returns {Promise<void>} - A promise that resolves when the UI component has been created.
+ * @async
  */
 async function createUIComponent(){
 

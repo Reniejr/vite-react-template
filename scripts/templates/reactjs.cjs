@@ -5,10 +5,10 @@
  * with a placeholder for importing styles and component code.
  * 
  * TO USE : REPLACE {{filename}} with proper name
- * TO USE IN FUNCTION: REPLACE {{filename}} with ${filename}
+ * TO USE IN FUNCTION: REPLACE {{filename}} with ${filename}.
+ * @constant {string} UI_COMPONENT_DEFAULT_TEMPLATE
  * @param {string} filename
  * 
- * @constant {string} UI_COMPONENT_DEFAULT_TEMPLATE
  */
 const UI_COMPONENT_DEFAULT_TEMPLATE = `import React from 'react';\n\n// Styles\nimport styles from './{{filename}}.module.scss';\n\nconst {{filename}} = () => {
     return (

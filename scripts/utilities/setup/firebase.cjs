@@ -15,6 +15,9 @@ const FIREBASE_CMDS = {
     "get_projects_app": function(projectId) { return `firebase apps:list --project ${projectId} --json`}
 }
 
+/**
+ *
+ */
 async function firebase_getProjectsAppNames(){
 
     const firebaserc_content = fs.readFileSync(".firebaserc", { encoding: "utf-8" });
@@ -46,20 +49,27 @@ async function firebase_getProjectsAppNames(){
 }
 
 
+/**
+ *
+ */
 async function firebase_getProjectList(){
 
     const projects_list = execSync("firebase projects:list --json")
     const parsed_projects_list = JSON.parse(projects_list)
 
     const list = parsed_projects_list.result.map(( p ) => {
-            const { projectId, displayName } = p;
-            return { projectId, displayName }
-        })
+        const { projectId, displayName } = p;
+        return { projectId, displayName }
+    })
 
     return list;
 
 }
 
+/**
+ *
+ * @param projectsList
+ */
 async function firebase_getProjectsConfigs(projectsList = []){
 
 
@@ -79,7 +89,7 @@ async function firebase_getProjectsConfigs(projectsList = []){
         project_ids = [ ...new Set(Object.values(projectsList))]
     }
 
-    let result = []
+    const result = []
 
     for (let i = 0; i < project_ids.length; i++) {
 
@@ -121,13 +131,18 @@ async function firebase_getProjectsConfigs(projectsList = []){
     return result;
 }
 
+/**
+ *
+ * @param projects
+ * @param projectsConfigsList
+ */
 async function firebase_generateProjectsInfo(projects, projectsConfigsList){
 
-    let result = []
+    const result = []
 
-    Object.entries( projects ).forEach( function([ projectAlias, projectName ]){
+    Object.entries( projects ).forEach( ([ projectAlias, projectName ]) =>{
 
-        let new_info = {
+        const new_info = {
             alias: projectAlias,
             name: projectName,
             configs: {}
@@ -153,6 +168,9 @@ async function firebase_generateProjectsInfo(projects, projectsConfigsList){
 
 }
 
+/**
+ *
+ */
 async function firebase_getProjectsAppsConfigs(){
 
     const firebase_projects_initialized = await firebase_getProjectsAppNames();
@@ -165,6 +183,9 @@ async function firebase_getProjectsAppsConfigs(){
 
 }
 
+/**
+ *
+ */
 async function firebase_writeAppInitFile(){
 
     const projects_infos = await firebase_getProjectsAppsConfigs();
@@ -184,6 +205,9 @@ async function firebase_writeAppInitFile(){
     fs.writeFileSync(path_to_write, app_initialized_content)
 }
 
+/**
+ *
+ */
 async function firebase_setup(){
 
     if(!fs.existsSync(".firebaserc")){

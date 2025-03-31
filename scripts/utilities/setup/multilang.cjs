@@ -26,6 +26,9 @@ const DEFAULT_LANGUAGES = [
     }
 ]
 
+/**
+ *
+ */
 function updateMainFiles(){
 
     const main_file_path = "src/main.jsx"
@@ -39,6 +42,10 @@ import './translations/i18n'
 
 }
 
+/**
+ *
+ * @param languages
+ */
 function writeI18nConfigfile(languages){
 
     const config_file_content = generateI18nConfigFile(languages)
@@ -53,11 +60,14 @@ function writeI18nConfigfile(languages){
 
 }
 
+/**
+ *
+ */
 async function multilang_setup(){
 
     console.log("Setting up multilanguage handlers.....")
 
-    let all_languages = [ ...DEFAULT_LANGUAGES ]
+    const all_languages = [ ...DEFAULT_LANGUAGES ]
 
     let add_language = true
 

@@ -11,8 +11,7 @@
     "create-ui-component": "node ./scripts/logic/create-ui-component.cjs",
     "remove-console-logs": "node ./scripts/logic/comment-console-logs.cjs",
     "set-env": "node ./scripts/logic/write-env.cjs",
-    "update-version": "node ./scripts/logic/versioning.cjs",
-    "git-commit": "node ./scripts/logic/git-commit.cjs"
+    "init:firebase:scripts": "node ./scripts/logic/initFirebaseScripts.cjs"
   },
   "dependencies": {
     "million": "^3.1.11",
@@ -36,6 +35,7 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.14.0",
     "inquirer-select-pro": "^1.0.0-alpha.9",
+    "prettier": "^3.5.3",
     "vite": "^6.0.5"
   }
 }

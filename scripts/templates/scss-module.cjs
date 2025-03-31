@@ -5,10 +5,10 @@
  * with a resolved relative path to the main styles.
  * 
  * TO USE : REPLACE {{relativePathToMainStyles}} with proper name
- * TO USE IN FUNCTION: REPLACE {{relativePathToMainStyles}} with ${relativePathToMainStyles}
+ * TO USE IN FUNCTION: REPLACE {{relativePathToMainStyles}} with ${relativePathToMainStyles}.
+ * @constant {string} MAIN_SCSS_IMPORT_DECLARATION
  * @param {string} relativePathToMainStyles
  * 
- * @constant {string} MAIN_SCSS_IMPORT_DECLARATION
  */
 const MAIN_SCSS_IMPORT_DECLARATION = `@use "{{relativePathToMainStyles.replace(/\\/g, "/")}}";\n`;
 
