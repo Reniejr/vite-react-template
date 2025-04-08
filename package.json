@@ -13,7 +13,9 @@
     "set-env": "node ./scripts/logic/write-env.cjs",
     "init:firebase:scripts": "node ./scripts/logic/initFirebaseScripts.cjs",
     "repath": "node ./scripts/logic/newPaths.cjs",
-    "set:multilang": "node --no-warnings=ExperimentalWarning ./scripts/logic/setMultiLang.cjs"
+    "set:multilang": "node --no-warnings=ExperimentalWarning ./scripts/logic/setMultiLang.cjs",
+    "set:firebase": "firebase init && npm run init:firebase:scripts",
+    "add:firebase": "firebase use --add && npm run init:firebase:scripts"
   },
   "dependencies": {
     "million": "^3.1.11",
