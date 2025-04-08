@@ -1,40 +1,50 @@
-import million from "million/compiler";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import million from "million/compiler";
 
-export default defineConfig(({ mode }) => {
+import fs from "fs";
+import path from "path";
 
-  return {
-    define: {
-      'import.meta.env.VITE_USER_NODE_ENV': JSON.stringify(mode), // Make it available in ESM
-    },
-    envPrefix: "VITE_", // Ensure that Vite environment variables are prefixed correctly
-    plugins: [
-      million.vite({
-        auto: {
-          threshold: 0.05,
-          skip: ["useBadHook", /badVariable/g],
-        },
-      }),
-      react(),
-    ],
-    resolve: {
-      alias: {
-        src: "/src",
-        modules: "/src/modules",
-        components: "/src/components",
-        assets: "/src/assets",
-        styles: "/src/styles",
-        pages: "/src/pages",
-        state: "/src/state",
-        api: "/src/api",
-        utilities: "/src/utilities",
-        configs: "/src/configs",
-        hooks: "/src/hooks",
-        services: "/src/services",
-        translations: "/src/translations",
-        classes: "/src/classes",
+const paths = JSON.parse(
+  fs.readFileSync(path.resolve("./scripts/templates/vite/paths.json"), "utf-8"),
+);
+
+export default defineConfig({
+  plugins: [
+    million.vite({
+      auto: {
+        threshold: 0.05,
+        skip: ["useBadHook", /badVariable/g],
+      },
+    }),
+    react(),
+  ],
+  esbuild: {
+    minify: true,
+    target: "esnext",
+  },
+  build: {
+    minify: "esbuild",
+    sourcemap: false,
+    target: "esnext", // Use latest JavaScript features
+    brotliSize: false, // Avoid additional gzip/brotli size computation
+    cssCodeSplit: true, // Only bundle used CSS
+    chunkSizeWarningLimit: 1000, // Increase limit for large projects
+    rollupOptions: {
+      output: {
+        manualChunks: undefined, // Let Rollup optimize automatically
       },
     },
-  };
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console logs in production
+      },
+    },
+    terser: {
+      parallel: true, // Use multiple cores for minification
+    },
+  },
+  resolve: {
+    alias: paths,
+  },
 });

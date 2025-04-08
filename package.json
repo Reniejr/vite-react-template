@@ -11,7 +11,8 @@
     "create-ui-component": "node ./scripts/logic/create-ui-component.cjs",
     "remove-console-logs": "node ./scripts/logic/comment-console-logs.cjs",
     "set-env": "node ./scripts/logic/write-env.cjs",
-    "init:firebase:scripts": "node ./scripts/logic/initFirebaseScripts.cjs"
+    "init:firebase:scripts": "node ./scripts/logic/initFirebaseScripts.cjs",
+    "repath": "node ./scripts/logic/newPaths.cjs"
   },
   "dependencies": {
     "million": "^3.1.11",
