@@ -112,7 +112,7 @@ ${basic.export}`
 
 module.exports.initAppFile = initAppFile;
 
-async function scriptFile(project){
+async function scriptFile(project, options = { autoLogin: false}){
 
   const { projectId, hostingApp: { shortUrl } } = project
 
@@ -125,7 +125,7 @@ const APP_URL = "${shortUrl}";
 
 async function run(){
 
-  await init(PROJECT_ID, { appUrl: APP_URL })
+  await init(PROJECT_ID, { appUrl: APP_URL, init: ${JSON.stringify(options)} })
 
 }
 

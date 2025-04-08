@@ -201,6 +201,8 @@ async function init(projectId, options = {}, additionalParams = {}){
         ...options
     }
 
+    console.log("newOptions", newOptions)
+
     const initialConfigs = getSecretsFiles(projectId);
 
     if(!initialConfigs){

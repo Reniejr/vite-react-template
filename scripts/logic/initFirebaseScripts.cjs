@@ -5,7 +5,7 @@ const {
 } = require("../utilities/firebase.cjs");
 const LOGGER = require("../utilities/logger.cjs");
 const { readJson, writeFile } = require("../utilities/index.cjs");
-const { input, select } = require("@inquirer/prompts");
+const { input, select, password } = require("@inquirer/prompts");
 const { scriptFile, scriptFileLocal } = require("../templates/firebase.cjs");
 const { updatePackageJson } = require("../utilities/codebase.cjs");
 const path = require("path");
@@ -62,6 +62,42 @@ async function run(){
             hostingApp: selected_app
         }
 
+        const withLogin = await select({
+            message: "Want to add the autologin?",
+            choices: [
+                {
+                    "name": "No",
+                    "value": false
+                },
+                {
+                    "name": "Yes",
+                    "value": true
+                }
+            ]
+        })
+
+        let newOptions = {
+            autoLogin: false
+        }
+
+        if(withLogin){
+
+            const firebaseAdminEmail = await input({ message: "Type the admin firebase email:" })
+            const firebaseAdminPassword = await input({ message: "Type the admin firebase password:" })
+
+            newOptions = {
+                ...newOptions,
+                autoLogin: true,
+                credentials: {
+                    email: firebaseAdminEmail,
+                    password: firebaseAdminPassword
+                }
+            }
+
+        }
+
+        firebaseScriptOptions.options = newOptions
+
         perHostingApp.push(firebaseScriptOptions)
 
         let localize = await select({
@@ -116,8 +152,10 @@ async function run(){
                 }
 
             } else {
+
                 
-                const scriptContent = await scriptFile(project);
+                
+                const scriptContent = await scriptFile(project, project.options);
     
                 const scriptPath = `run-${project.scriptName}-${project.env}-with-firebase.cjs`
     
