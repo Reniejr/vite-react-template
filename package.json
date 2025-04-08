@@ -12,7 +12,8 @@
     "remove-console-logs": "node ./scripts/logic/comment-console-logs.cjs",
     "set-env": "node ./scripts/logic/write-env.cjs",
     "init:firebase:scripts": "node ./scripts/logic/initFirebaseScripts.cjs",
-    "repath": "node ./scripts/logic/newPaths.cjs"
+    "repath": "node ./scripts/logic/newPaths.cjs",
+    "set:multilang": "node --no-warnings=ExperimentalWarning ./scripts/logic/setMultiLang.cjs"
   },
   "dependencies": {
     "million": "^3.1.11",

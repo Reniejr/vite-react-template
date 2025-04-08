@@ -32,6 +32,14 @@ async function updatePackageJson(content, field) {
 
 module.exports.updatePackageJson = updatePackageJson;
 
+function readPackageJson(){
+
+  return readJson(PACKAGEJSON)
+
+}
+
+module.exports.readPackageJson = readPackageJson;
+
 const VITEJS = path.resolve(__dirname, "../../vite.config.js");
 const VITECONFIGS = require("../../vite.config")
 

@@ -197,85 +197,6 @@ function runCommand(command, options = undefined) {
 /**
  * Interactive folder selector with free navigation.
  */
-// async function navigateAndSelectFolders(startDir = process.cwd()) {
-//   const selectedFolders = new Set();
-//   let currentDir = path.resolve(startDir);
-//   const history = [];
-
-//   while (true) {
-//     const items = fs
-//       .readdirSync(currentDir, { withFileTypes: true })
-//       .filter((dirent) => dirent.isDirectory())
-//       .map((dirent) => dirent.name);
-
-//     const choices = [
-//       ...items.map((name) => ({
-//         name: selectedFolders.has(path.join(currentDir, name))
-//           ? `✅ ${name}`
-//           : name,
-//         value: name,
-//       })),
-//     ];
-
-//     if (history.length > 0) {
-//       choices.unshift({ name: "⬅️  Back", value: "__back__" });
-//     }
-
-//     choices.push({ name: "✅ Confirm selection", value: "__confirm__" });
-
-//     const answer = await select({
-//       message: `Current directory: ${currentDir}`,
-//       choices,
-//       loop: false,
-//     });
-
-//     if (answer === "__back__") {
-//       currentDir = history.pop();
-//     } else if (answer === "__confirm__") {
-//       return [...selectedFolders];
-//     } else {
-//       const fullPath = path.join(currentDir, answer);
-
-//       if (selectedFolders.has(fullPath)) {
-//         selectedFolders.delete(fullPath);
-//       } else {
-//         const stats = fs.statSync(fullPath);
-//         if (stats.isDirectory()) {
-//           // allow selecting OR going into it
-//           const subChoices = [
-//             { name: "📁 Open folder", value: "__open__" },
-//             {
-//               name: selectedFolders.has(fullPath)
-//                 ? "❌ Deselect this folder"
-//                 : "✅ Select this folder",
-//               value: "__toggle_select__",
-//             },
-//             { name: "⬅️  Cancel", value: "__cancel__" },
-//           ];
-
-//           const subAnswer = await select({
-//             message: `What do you want to do with "${answer}"?`,
-//             choices: subChoices,
-//             loop: false,
-//           });
-
-//           if (subAnswer === "__open__") {
-//             history.push(currentDir);
-//             currentDir = fullPath;
-//           } else if (subAnswer === "__toggle_select__") {
-//             if (selectedFolders.has(fullPath)) {
-//               selectedFolders.delete(fullPath);
-//             } else {
-//               selectedFolders.add(fullPath);
-//             }
-//           }
-//           // if cancel, do nothing
-//         }
-//       }
-//     }
-//   }
-// }
-
 async function navigateAndSelectFolders(startDir = process.cwd()) {
   const selectedFolders = new Set();
   let currentDir = path.resolve(startDir);
@@ -351,6 +272,41 @@ async function navigateAndSelectFolders(startDir = process.cwd()) {
   }
 }
 
+/**
+ * Inserts a new line of code after the last import statement in a file.
+ * @param {string} filePath - Path to the target file.
+ * @param {string} newLineCode - The line of code to insert (e.g., "import x from 'y';").
+ */
+function insertAfterLastImport(filePath, newLineCode) {
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const lines = fileContent.split('\n');
+
+  let lastImportIndex = -1;
+
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim().startsWith('import')) {
+      lastImportIndex = i;
+    }
+  }
+
+  if (lastImportIndex === -1) {
+    console.warn('No import statements found. Inserting at the top.');
+    lines.unshift(newLineCode);
+  } else {
+    lines.splice(lastImportIndex + 1, 0, newLineCode);
+  }
+
+  const updatedContent = lines.join('\n');
+  fs.writeFileSync(filePath, updatedContent, 'utf8');
+  console.log(`Inserted line after last import in: ${filePath}`);
+}
+
+function getMainViteAppFiles(mainFileName){
+
+  return path.resolve(__dirname, `../../src/${mainFileName}`)
+
+}
+
 module.exports = {
   logger,
   readCurrentDirectory,
@@ -360,4 +316,6 @@ module.exports = {
   readJson,
   runCommand,
   navigateAndSelectFolders,
+  insertAfterLastImport,
+  getMainViteAppFiles
 };
